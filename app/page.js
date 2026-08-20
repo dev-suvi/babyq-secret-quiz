@@ -1,21 +1,63 @@
 'use client';
-import { useMemo, useState } from 'react';
 
-const teams={chaos:{name:'CHAOS CREW',emoji:'🔥',line:'Spontaneous. Fearless. Probably responsible for the best stories.'},mastermind:{name:'MASTERMINDS',emoji:'🧠',line:'Strategic, sharp and suspiciously prepared for everything.'},agent:{name:'SECRET AGENTS',emoji:'🕵️',line:'Calm, observant and always three steps ahead.'},wildcard:{name:'WILD CARDS',emoji:'✨',line:'Unpredictable, creative and impossible to put in a box.'}};
-const questions=[
-{q:'You arrive at a party and barely know anyone. What happens?',a:[["I’m somehow talking to everyone within 20 minutes.",'chaos'],['I find the food first. Priorities.','wildcard'],['I locate one friendly human and start there.','agent'],['I observe the room before making my move.','mastermind']]},
-{q:'You suddenly have a completely free Saturday. Pick your vibe.',a:[['Spontaneous adventure. No itinerary required.','chaos'],['Food, sofa and absolutely no responsibilities.','agent'],['I already have three possible plans.','mastermind'],['I’ll decide approximately 14 minutes before leaving.','wildcard']]},
-{q:'Someone says, “Don’t worry, I have a plan.” Your reaction?',a:[['LET’S GO.','chaos'],['I need details, timings and preferably a backup plan.','mastermind'],['Interesting. I’ll watch how this develops.','agent'],['I’m already following them. What could go wrong?','wildcard']]},
-{q:'Pick a completely unnecessary superpower.',a:[['Teleportation','chaos'],['Reading minds','agent'],['Stopping time','mastermind'],['Always finding the perfect parking spot','wildcard']]},
-{q:'A board game gets unexpectedly competitive. You…',a:[['Become emotionally invested immediately.','chaos'],['Quietly work out the optimal strategy.','mastermind'],['Watch everyone else and adjust.','agent'],['Invent a questionable strategy nobody saw coming.','wildcard']]},
-{q:'Your group is hopelessly lost. What role do you take?',a:[['Keep walking. Adventure!','chaos'],['Maps are open. I’m fixing this.','mastermind'],['Check landmarks and work backwards.','agent'],['Suggest a shortcut based entirely on vibes.','wildcard']]},
-{q:'Pick the sentence that feels most like you.',a:[["“It’ll be fine.”",'chaos'],['“I made a list.”','mastermind'],['“I noticed something…”','agent'],['“Okay, hear me out.”','wildcard']]}
-];
-export default function Home(){
-const[started,setStarted]=useState(false),[step,setStep]=useState(0),[scores,setScores]=useState({chaos:0,mastermind:0,agent:0,wildcard:0}),[done,setDone]=useState(false);
-const result=useMemo(()=>{const max=Math.max(...Object.values(scores));const tied=Object.keys(scores).filter(k=>scores[k]===max);const key=tied[(scores.chaos+scores.agent*2+scores.mastermind*3+scores.wildcard*5)%tied.length];return teams[key]},[scores]);
-function choose(team){setScores({...scores,[team]:scores[team]+1});if(step===questions.length-1)setDone(true);else setStep(step+1)}
-function restart(){setScores({chaos:0,mastermind:0,agent:0,wildcard:0});setStep(0);setDone(false);setStarted(false)}
-if(!started)return <main className="shell"><section className="card hero"><div className="eyebrow">A VERY SERIOUS SCIENTIFIC ASSESSMENT*</div><div className="bigEmoji">🎭</div><h1>The Party<br/>Personality Test</h1><p>Seven highly questionable questions. One mysterious result.</p><button onClick={()=>setStarted(true)}>Discover my personality →</button><small>*Not remotely scientific.</small></section></main>;
-if(done)return <main className="shell"><section className="card result"><div className="eyebrow">YOUR PARTY PERSONALITY IS</div><div className="bigEmoji pulse">{result.emoji}</div><h1>{result.name}</h1><p>{result.line}</p><div className="secret"><strong>🤫 TOP SECRET</strong><span>Remember this result. You’ll need it at the party.</span><b>Do not tell anyone what you got.</b></div><button className="ghost" onClick={restart}>Take it again</button></section></main>;
-const current=questions[step];return <main className="shell"><section className="card quiz"><div className="progressText">QUESTION {step+1} OF {questions.length}</div><div className="progress"><span style={{width:`${((step+1)/questions.length)*100}%`}}/></div><h2>{current.q}</h2><div className="answers">{current.a.map(([label,team],i)=><button className="answer" key={label} onClick={()=>choose(team)}><span>{String.fromCharCode(65+i)}</span>{label}</button>)}</div><p className="hint">Go with your first instinct. Overthinking is suspicious. 👀</p></section></main>}
+import { useState } from 'react';
+
+const demoIdentity = 'JHUMKA';
+
+export default function Home() {
+  const [revealed, setRevealed] = useState(false);
+
+  if (!revealed) {
+    return (
+      <main className="shell">
+        <section className="card hero">
+          <div className="eyebrow">BABYQ • TOP SECRET</div>
+          <div className="bigEmoji">🤫</div>
+          <h1>Find Your<br/>People</h1>
+          <p>You have been given a secret identity. At BabyQ, five other people belong with you — but nobody knows who.</p>
+          <button onClick={() => setRevealed(true)}>Show me how it works →</button>
+          <small>Keep your identity secret. The chaos is intentional.</small>
+        </section>
+      </main>
+    );
+  }
+
+  return (
+    <main className="shell">
+      <section className="card mission">
+        <div className="eyebrow">EXAMPLE MISSION • NOT YOUR REAL IDENTITY</div>
+        <div className="bigEmoji">🎬</div>
+        <h1>Your secret identity is</h1>
+        <div className="identity">{demoIdentity}</div>
+
+        <div className="ruleBox">
+          <h2>🤐 Keep it secret</h2>
+          <p>Do not say your word and do not show anyone this screen. Before the party, think of <strong>2–3 clues</strong> that describe your identity without giving it away.</p>
+        </div>
+
+        <div className="example">
+          <span>FOR EXAMPLE</span>
+          <p>“You might wear me to a wedding, I sparkle, and you’ll probably notice me when someone dances.”</p>
+        </div>
+
+        <div className="tips">
+          <h2>Need clue inspiration?</h2>
+          <div className="chips"><span>Where would you find it?</span><span>What is it associated with?</span><span>When would you use it?</span></div>
+        </div>
+
+        <div className="missionSteps">
+          <h2>🎯 Your mission at BabyQ</h2>
+          <p>Talk to people. Give your clues. Listen to theirs.</p>
+          <p>Somewhere at the party are <strong>5 people</strong> whose secret identities have something in common with yours.</p>
+          <p>Find your people and work out the hidden category that connects all six of you.</p>
+        </div>
+
+        <div className="warning">⚠️ Someone who sounds like they belong with you might actually be from another team.</div>
+        <div className="finale">When your group thinks you’ve cracked it, choose <strong>ONE person</strong> to reveal your category to the organizers. 🔓</div>
+
+        <button className="ghost" onClick={() => setRevealed(false)}>← Back</button>
+        <small className="organizerHint">The real identities and categories stay secret until game day.</small>
+      </section>
+    </main>
+  );
+}
