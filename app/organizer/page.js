@@ -8,7 +8,7 @@ const teams = [
     ['Muski','Sunscreen','faizamuskan.fm@gmail.com'],['Sweta','Hotel','gupta.sweta2403@gmail.com'],['Likhi','Souvenir','likhithagompa@gmail.com'],['Ro','Flip-Flops','rohit3864@gmail.com'],['Shivi','Camera','shivisaggi@gmail.com'],['Vrinda','Sunglasses','vrindagrover10@gmail.com']
   ]},
   { category: 'Hiking', emoji: '🥾', members: [
-    ['Kan','Compass','kanishkakul0106@gmail.com'],['Nammie','Backpack','namratagupta188@gmail.com'],['Nikhil','Trail','nikhiljain2112@gmail.com'],['Rahul','Map','rahulaneja687@gmail.com'],['Shifu','Boots','shafeeq.rahman01@gmail.com'],['Pragya','Water Bottle','pragyarch@gmail.com']
+    ['Kan','Compass','kanishkakul0106@gmail.com'],['Nammie','Backpack','namratagupta188@gmail.com'],['Nikhil','Trail','nikhiljain2112@gmail.com'],['Rahul','Map','rahulaneja687@gmail.com'],['Shifu','Boots','shafeeq.rahman01@gmail.com'],['Pragya','Water Bottle','pragyarch@gmail.com'],['Suvi (TEST)','Hiking Pole','suvarnamondal27@gmail.com']
   ]},
 ];
 
