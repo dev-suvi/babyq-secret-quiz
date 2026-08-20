@@ -1,21 +1,128 @@
 'use client';
-import { useMemo, useState } from 'react';
 
-const teams={chaos:{name:'CHAOS CREW',emoji:'🔥',line:'Spontaneous. Fearless. Probably responsible for the best stories.'},mastermind:{name:'MASTERMINDS',emoji:'🧠',line:'Strategic, sharp and suspiciously prepared for everything.'},agent:{name:'SECRET AGENTS',emoji:'🕵️',line:'Calm, observant and always three steps ahead.'},wildcard:{name:'WILD CARDS',emoji:'✨',line:'Unpredictable, creative and impossible to put in a box.'}};
-const questions=[
-{q:'You arrive at a party and barely know anyone. What happens?',a:[["I’m somehow talking to everyone within 20 minutes.",'chaos'],['I find the food first. Priorities.','wildcard'],['I locate one friendly human and start there.','agent'],['I observe the room before making my move.','mastermind']]},
-{q:'You suddenly have a completely free Saturday. Pick your vibe.',a:[['Spontaneous adventure. No itinerary required.','chaos'],['Food, sofa and absolutely no responsibilities.','agent'],['I already have three possible plans.','mastermind'],['I’ll decide approximately 14 minutes before leaving.','wildcard']]},
-{q:'Someone says, “Don’t worry, I have a plan.” Your reaction?',a:[['LET’S GO.','chaos'],['I need details, timings and preferably a backup plan.','mastermind'],['Interesting. I’ll watch how this develops.','agent'],['I’m already following them. What could go wrong?','wildcard']]},
-{q:'Pick a completely unnecessary superpower.',a:[['Teleportation','chaos'],['Reading minds','agent'],['Stopping time','mastermind'],['Always finding the perfect parking spot','wildcard']]},
-{q:'A board game gets unexpectedly competitive. You…',a:[['Become emotionally invested immediately.','chaos'],['Quietly work out the optimal strategy.','mastermind'],['Watch everyone else and adjust.','agent'],['Invent a questionable strategy nobody saw coming.','wildcard']]},
-{q:'Your group is hopelessly lost. What role do you take?',a:[['Keep walking. Adventure!','chaos'],['Maps are open. I’m fixing this.','mastermind'],['Check landmarks and work backwards.','agent'],['Suggest a shortcut based entirely on vibes.','wildcard']]},
-{q:'Pick the sentence that feels most like you.',a:[["“It’ll be fine.”",'chaos'],['“I made a list.”','mastermind'],['“I noticed something…”','agent'],['“Okay, hear me out.”','wildcard']]}
+import { useState } from 'react';
+
+// The category is intentionally not rendered anywhere in the guest experience.
+// Assignments are balanced 6/6/6 and every couple is split across categories.
+const guests = {
+  'adamjones123@hotmail.co.uk': { name: 'Adam', word: 'BOARDING PASS' },
+  'ashutosh.saxena23@gmail.com': { name: 'Ashu', word: 'GATE' },
+  'faizamuskan.fm@gmail.com': { name: 'Muski', word: 'SUNSCREEN' },
+  'gupta.sweta2403@gmail.com': { name: 'Sweta', word: 'HOTEL' },
+  'kanishkakul0106@gmail.com': { name: 'Kan', word: 'COMPASS' },
+  'likhithagompa@gmail.com': { name: 'Likhi', word: 'SOUVENIR' },
+  'namratagupta188@gmail.com': { name: 'Nammie', word: 'BACKPACK' },
+  'naveenmeher07@gmail.com': { name: 'Chintu', word: 'SECURITY' },
+  'nikhiljain2112@gmail.com': { name: 'Nikhil', word: 'TRAIL' },
+  'nvbadrinarayanan@gmail.com': { name: 'Badri', word: 'RUNWAY' },
+  'rahulaneja687@gmail.com': { name: 'Rahul', word: 'MAP' },
+  'rohit3864@gmail.com': { name: 'Ro', word: 'FLIP-FLOPS' },
+  'sayan.chanda.2020@gmail.com': { name: 'Sayan', word: 'DEPARTURE' },
+  'shafeeq.rahman01@gmail.com': { name: 'Shifu', word: 'BOOTS' },
+  'shivisaggi@gmail.com': { name: 'Shivi', word: 'CAMERA' },
+  'vrindagrover10@gmail.com': { name: 'Vrinda', word: 'SUNGLASSES' },
+  'shanky442@gmail.com': { name: 'Ankur', word: 'LUGGAGE' },
+  'pragyarch@gmail.com': { name: 'Pragya', word: 'WATER BOTTLE' },
+};
+
+const questions = [
+  { q: 'You’re heading somewhere new. What’s your energy?', a: ['I have a plan and a backup plan.', 'I know roughly what’s happening.', 'No plan. Maximum vibes.'] },
+  { q: 'Pick your completely essential travel superpower.', a: ['Never getting lost.', 'Never forgetting anything.', 'Always finding the best food.'] },
+  { q: 'The group needs someone to take charge. You…', a: ['Already have. Obviously.', 'Will help if required.', 'Suddenly become very busy. 👀'] },
 ];
-export default function Home(){
-const[started,setStarted]=useState(false),[step,setStep]=useState(0),[scores,setScores]=useState({chaos:0,mastermind:0,agent:0,wildcard:0}),[done,setDone]=useState(false);
-const result=useMemo(()=>{const max=Math.max(...Object.values(scores));const tied=Object.keys(scores).filter(k=>scores[k]===max);const key=tied[(scores.chaos+scores.agent*2+scores.mastermind*3+scores.wildcard*5)%tied.length];return teams[key]},[scores]);
-function choose(team){setScores({...scores,[team]:scores[team]+1});if(step===questions.length-1)setDone(true);else setStep(step+1)}
-function restart(){setScores({chaos:0,mastermind:0,agent:0,wildcard:0});setStep(0);setDone(false);setStarted(false)}
-if(!started)return <main className="shell"><section className="card hero"><div className="eyebrow">A VERY SERIOUS SCIENTIFIC ASSESSMENT*</div><div className="bigEmoji">🎭</div><h1>The Party<br/>Personality Test</h1><p>Seven highly questionable questions. One mysterious result.</p><button onClick={()=>setStarted(true)}>Discover my personality →</button><small>*Not remotely scientific.</small></section></main>;
-if(done)return <main className="shell"><section className="card result"><div className="eyebrow">YOUR PARTY PERSONALITY IS</div><div className="bigEmoji pulse">{result.emoji}</div><h1>{result.name}</h1><p>{result.line}</p><div className="secret"><strong>🤫 TOP SECRET</strong><span>Remember this result. You’ll need it at the party.</span><b>Do not tell anyone what you got.</b></div><button className="ghost" onClick={restart}>Take it again</button></section></main>;
-const current=questions[step];return <main className="shell"><section className="card quiz"><div className="progressText">QUESTION {step+1} OF {questions.length}</div><div className="progress"><span style={{width:`${((step+1)/questions.length)*100}%`}}/></div><h2>{current.q}</h2><div className="answers">{current.a.map(([label,team],i)=><button className="answer" key={label} onClick={()=>choose(team)}><span>{String.fromCharCode(65+i)}</span>{label}</button>)}</div><p className="hint">Go with your first instinct. Overthinking is suspicious. 👀</p></section></main>}
+
+const examples = [
+  { word: 'JHUMKA', clues: ['You might wear me to a wedding.', 'I sparkle.', 'You’ll find me beside your face.'] },
+  { word: 'SHAH RUKH KHAN', clues: ['I’m known for romance.', 'Arms wide open is kind of my thing.', 'You’d probably associate me with Bollywood.'] },
+];
+
+export default function Home() {
+  const [email, setEmail] = useState('');
+  const [guest, setGuest] = useState(null);
+  const [error, setError] = useState('');
+  const [step, setStep] = useState(0);
+  const [revealed, setRevealed] = useState(false);
+
+  function enter(e) {
+    e.preventDefault();
+    const match = guests[email.trim().toLowerCase()];
+    if (!match) {
+      setError('Hmm… we can’t find that email on the BabyQ guest list. Check the email address your invite was sent to and try again. 👀');
+      return;
+    }
+    setGuest(match);
+    setError('');
+  }
+
+  function choose() {
+    if (step === questions.length - 1) setRevealed(true);
+    else setStep((current) => current + 1);
+  }
+
+  if (!guest) return (
+    <main className="shell"><section className="card hero">
+      <div className="eyebrow">BABYQ • TOP SECRET</div>
+      <div className="bigEmoji">🤫</div>
+      <h1>A little mystery<br/>before BabyQ</h1>
+      <p>Enter the email address your BabyQ invite was sent to. We have something waiting for you. 👀</p>
+      <form className="emailForm" onSubmit={enter}>
+        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" aria-label="Email address" required autoComplete="email" />
+        <button type="submit">Continue →</button>
+      </form>
+      {error && <p className="formError">{error}</p>}
+      <small>One guest. One email. One secret.</small>
+    </section></main>
+  );
+
+  if (!revealed) {
+    const current = questions[step];
+    return (
+      <main className="shell"><section className="card quiz">
+        <div className="eyebrow">HELLO {guest.name.toUpperCase()}! 👋</div>
+        <p className="introLine">Before we give you your secret word, we have a few very important questions…</p>
+        <div className="progressText">QUESTION {step + 1} OF {questions.length}</div>
+        <div className="progress"><span style={{ width: `${((step + 1) / questions.length) * 100}%` }}/></div>
+        <h2>{current.q}</h2>
+        <div className="answers">{current.a.map((answer, index) => (
+          <button className="answer" key={answer} onClick={choose}><span>{String.fromCharCode(65 + index)}</span>{answer}</button>
+        ))}</div>
+        <p className="hint">Go with your first instinct. Overthinking is suspicious. 👀</p>
+      </section></main>
+    );
+  }
+
+  return (
+    <main className="shell"><section className="card mission">
+      <div className="eyebrow">{guest.name.toUpperCase()} • YOUR BABYQ SECRET</div>
+      <div className="bigEmoji">✨</div>
+      <p className="analysisLine">Very interesting… your answers have been carefully analysed.*</p>
+      <h1>Your secret word is</h1>
+      <div className="identity">{guest.word}</div>
+      <small>*They absolutely have not. 😂</small>
+
+      <div className="ruleBox">
+        <h2>🤫 Your mission for now</h2>
+        <p>Create <strong>2–4 clues</strong> that describe your secret word without actually saying the word.</p>
+        <p>Come to BabyQ with your clues ready. You’ll find out what they’re for on the day. 👀</p>
+      </div>
+
+      <div className="examples">
+        <h2>Need an example?</h2>
+        <p className="muted">These examples have nothing to do with your secret word.</p>
+        {examples.map((example) => (
+          <div className="example" key={example.word}>
+            <span>IF YOUR WORD WAS {example.word}</span>
+            {example.clues.map((clue) => <p key={clue}>💡 “{clue}”</p>)}
+          </div>
+        ))}
+      </div>
+
+      <div className="tips"><h2>The only rules</h2><div className="rulesList">
+        <p>🤐 Don’t reveal your actual word to anyone.</p>
+        <p>📱 Don’t show anyone this screen.</p>
+        <p>🧠 Come prepared with your 2–4 clues.</p>
+      </div></div>
+      <div className="finale"><strong>Keep your word somewhere safe.</strong><br/>That’s all you get to know for now. See you at BabyQ. 😈</div>
+    </section></main>
+  );
+}
