@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getCompletion, markCompleted } from '../../../lib/completion-store';
 
 const allowed = new Set([
-  'adamjones123@hotmail.co.uk','ashutosh.saxena23@gmail.com','faizamuskan.fm@gmail.com','gupta.sweta2403@gmail.com','kanishkakul0106@gmail.com','likhithagompa@gmail.com','namratagupta188@gmail.com','naveenmeher07@gmail.com','nikhiljain2112@gmail.com','nvbadrinarayanan@gmail.com','rahulaneja687@gmail.com','rohit3864@gmail.com','sayan.chanda.2020@gmail.com','shafeeq.rahman01@gmail.com','shivisaggi@gmail.com','vrindagrover10@gmail.com','shanky442@gmail.com','pragyarch@gmail.com'
+  'adamjones123@hotmail.co.uk','ashutosh.saxena23@gmail.com','faizamuskan.fm@gmail.com','gupta.sweta2403@gmail.com','kanishkakul0106@gmail.com','likhithagompa@gmail.com','namratagupta188@gmail.com','naveenmeher07@gmail.com','nikhiljain2112@gmail.com','nvbadrinarayanan@gmail.com','rahulaneja687@gmail.com','rohit3864@gmail.com','sayan.chanda.2020@gmail.com','shafeeq.rahman01@gmail.com','shivisaggi@gmail.com','vrindagrover10@gmail.com','shanky442@gmail.com','pragyarch@gmail.com','suvarnamondal27@gmail.com'
 ]);
 
 function normalise(email) { return String(email || '').trim().toLowerCase(); }
