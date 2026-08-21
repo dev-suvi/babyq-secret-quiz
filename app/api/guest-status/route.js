@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { createClient } from 'redis';
 import { getCompletion, markCompleted } from '../../../lib/completion-store';
 
-const allowed = new Set(['adamjones123@hotmail.co.uk','ashutosh.saxena23@gmail.com','faizamuskan.fm@gmail.com','gupta.sweta2403@gmail.com','kanishkakul0106@gmail.com','likhithagompa@gmail.com','namratagupta188@gmail.com','naveenmeher07@gmail.com','nikhiljain2112@gmail.com','nvbadrinarayanan@gmail.com','rahulaneja687@gmail.com','rohit3864@gmail.com','sayan.chanda.2020@gmail.com','shafeeq.rahman01@gmail.com','shivisaggi@gmail.com','vrindagrover10@gmail.com','shanky442@gmail.com','pragyarch@gmail.com','suvarnamondal27@gmail.com']);
+const allowed = new Set(['adamjones123@hotmail.co.uk','ashutosh.saxena23@gmail.com','faizamuskan.fm@gmail.com','gupta.sweta2403@gmail.com','kanishkakul0106@gmail.com','likhithagompa@gmail.com','namratagupta188@gmail.com','naveenmeher07@gmail.com','nikhiljain2112@gmail.com','nvbadrinarayanan@gmail.com','rahulaneja687@gmail.com','rohit3864@gmail.com','sayan.chanda.2020@gmail.com','shafeeq.rahman01@gmail.com','shivisaggi@gmail.com','vrindagrover10@gmail.com','shanky442@gmail.com','pragyarch@gmail.com']);
 let clientPromise;
 async function redis(){if(!clientPromise){const client=createClient({url:process.env.REDIS_URL});client.on('error',console.error);clientPromise=client.connect().then(()=>client).catch(e=>{clientPromise=undefined;throw e;});}return clientPromise;}
 function normalise(email){return String(email||'').trim().toLowerCase();}
